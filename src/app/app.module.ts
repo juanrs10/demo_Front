@@ -8,11 +8,15 @@ import { QueryModule } from './query/query.module';
 import { CommentModule } from './comment/comment.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { HomepageComponent } from './homepage/homepage.component';
+import { BrowseComponent } from './browse/browse.component';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [		
+    AppComponent,
+      HomepageComponent,
+      BrowseComponent
+   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -20,7 +24,8 @@ import { FormsModule } from '@angular/forms';
     QueryModule,
     CommentModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<body>
+  
+  <section>
+    <div class="navContainer">
+      <nav>
+        <ul>
+        <li><a class="item">Home</a></li>
+        <li><a class="item">MyProfile</a></li>
+        <li><a (click)="goBrowse()" class="item">Browse</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="heroSection">
+      <!-- ETH LOGO -->
+      <div class="firstHalf">
+        <div class="logo-container"><svg width="100%" height="100%" viewBox="0 0 56 76" version="1.1" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
+          <g transform="matrix(1,0,0,1,-1108.51,-154)">
+              <g id="ethLogo" transform="matrix(1,0,0,1,-5.68434e-13,-190)">
+                <g id="bottom">
+                  <g transform="matrix(1,0,0,1,332.554,-60)">
+                      <!-- Tono gris claro para el gradiente radial -->
+                      <path d="M775.959,448L803.672,464L831.384,448L803.672,432L775.959,448Z" style="fill:rgb(53, 49, 49);"/>
+                  </g>
+                  <g transform="matrix(1,0,0,1,332.554,-68)">
+                      <!-- Tono gris medio -->
+                      <path d="M775.959,456L803.672,472L803.672,488L775.959,456Z" style="fill:rgb(150,150,150);"/>
+                  </g>
+                  <g transform="matrix(1,0,0,1,332.554,-68)">
+                      <!-- Tono gris oscuro -->
+                      <path d="M831.384,456L803.672,488L803.672,472L831.384,456Z" style="fill:rgb(101,101,101);"/>
+                  </g>
+              </g>
+              <g id="top">
+                  <g transform="matrix(1,0,0,1,332.554,-64)">
+                      <!-- Tono gris más oscuro -->
+                      <path d="M775.959,448L803.672,464L831.384,448L803.672,432L775.959,448Z" style="fill:rgb(71,71,71);"/>
+                  </g>
+                  <g transform="matrix(1,0,0,1,332.554,-64)">
+                      <!-- Tono gris medio (igual que arriba) -->
+                      <path d="M775.959,448L803.672,408L803.672,464L775.959,448Z" style="fill:rgb(150,150,150);"/>
+                  </g>
+                  <g transform="matrix(1,0,0,1,332.554,-64)">
+                      <!-- Tono gris oscuro (igual que arriba) -->
+                      <path d="M831.384,448L803.672,464L803.672,408L831.384,448Z" style="fill:rgb(101,101,101);"/>
+                  </g>
+              </g>
+              </g>
+          </g>
+          <defs>
+              <radialGradient id="_Radial1" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(27.7747,0,0,14,803.672,444)"><stop offset="0" style="stop-color:black;stop-opacity:0.541176"/><stop offset="0.44" style="stop-color:rgb(4,21,48);stop-opacity:0.541176"/><stop offset="1" style="stop-color:rgb(13,71,161);stop-opacity:0.541176"/></radialGradient>
+          </defs>
+        </svg></div>
+      </div>
+      <!-- PAGE DESC -->
+      <div class="heroTextContainer">
+        <h1>ETH Cipher</h1>
+        <h2>Create complex querys without a single line of code</h2>
+        <button class="buttonBlack">Log in</button>
+      </div>
+
+    </div>
+
+
+  </section>
+
+  <div class="builderSection">
+
+    <h2>Create Your Query</h2>
+
+    <div *ngIf="errorMessage" class="error-message">
+      Error: {{ errorMessage }}
+    </div>
+
+    <div class="container"> 
+      <div class="select">
+        <select [(ngModel)]="selectedDatasource" (change)="onDatasourceChange(selectedDatasource)">
+          <option value="" disabled selected>Select datasource</option>
+          <option value="amendedTokens">Amended tokens</option>
+          <option value="balances">Balances</option>
+          <option value="blocks">Blocks</option>
+          <option value="contracts">Contracts</option>
+          <option value="metadata">Metadata</option>
+          <option value="logs">Logs</option>
+          <option value="sessions">Sessions</option>
+          <option value="tokenTransfers">Token transfers</option>
+          <option value="tokens">Tokens</option>
+          <option value="traces">Traces</option>
+          <option value="transactions">Transactions</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="toolkit">
+      <div *ngIf="selectedDatasource === 'amendedTokens'">
+        <p>Search Amended Tokens by:</p>
+        <label>Address: <input type="text" [(ngModel)]="address"></label>
+        <label>Symbol: <input type="text" [(ngModel)]="symbol"></label>
+        <label>AssetName: <input type="text" [(ngModel)]="assetName"></label>
+        <label>Decimals: <input type="number" [(ngModel)]="decimals"></label>
+      </div>
+      <div *ngIf="selectedDatasource === 'balances'">
+        <p>Search Balances by:</p>
+        <label>Address: <input type="text"  [(ngModel)]="address"></label>
+        <label>Balance: <input type="number"  [(ngModel)]="balanceRange"></label>
+      </div>
+      <div *ngIf="selectedDatasource === 'blocks'">
+        <p>Search Blocks by:</p>
+        <label>Date Range: <input type="text" [(ngModel)]="dateRange"></label>
+        <label>Specific Hash: <input type="text" [(ngModel)]="specificHash"></label>
+        <label>Miner: <input type="text" [(ngModel)]="miner"></label>
+        <label>Total Difficulty: <input type="text" [(ngModel)]="totalDifficulty"></label>
+      </div>
+      <div *ngIf="selectedDatasource === 'contracts'">
+        <p>Search Contracts by:</p>
+        <label>Specific Address: <input type="text" [(ngModel)]="specificAddress"></label>
+        <label>Type of Token: <input type="text" [(ngModel)]="typeOfToken"></label>
+        <label>Block Hash: <input type="text" [(ngModel)]="blockHash"></label>
+      </div>
+      <!-- ... other datasets ... -->
+      <div *ngIf="selectedDatasource === 'logs'">
+        <p>Search Logs by:</p>
+        <label>Log Index: <input type="text" [(ngModel)]="logIndex"></label>
+        <label>Transaction Hash: <input type="text" [(ngModel)]="transactionHash"></label>
+        <label>Transaction Index: <input type="text" [(ngModel)]="transactionIndex"></label>
+        <label>Address: <input type="text" [(ngModel)]="logAddress"></label>
+      </div>
+      <!-- ... -->
+      <div *ngIf="selectedDatasource === 'traces'">
+        <p>Search Traces by:</p>
+        <!-- Add input fields for Traces criteria if needed -->
+      </div>
+      <div *ngIf="selectedDatasource === 'transactions'">
+        <p>Search Transactions by:</p>
+        <!-- Add input fields for Transactions criteria if needed -->
+      </div>
+      <button *ngIf="selectedDatasource" class="buttonBlack build-button" (click)="buildQuery()">Build</button>
+    </div>
+    
+    
+
+    <textarea class="query-input" [(ngModel)]="queryContent" placeholder="Enter your query here..."></textarea><br>
+
+    <label>
+        <input type="checkbox" [(ngModel)]="isQueryPrivate"> Post Query
+    </label><br>
+
+    <button class="button buttonBlack execute-button" (click)="executeQuery()">Execute</button>
+    <button class="button buttonBlack save-button" (click)="saveQuery()">Save</button>
+
+    <table *ngIf="queryResults.length > 0">
+      <thead>
+          <tr>
+              <th *ngFor="let key of queryResults[0] | keyvalue">{{ key.key }}</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let row of queryResults">
+              <td *ngFor="let key of row | keyvalue">{{ key.value }}</td>
+          </tr>
+      </tbody>         
+      
+    </table>
+
+  </div>
+    <!-- MY QUERIES SECTION -->
+    <h2>Saved Queries</h2>
+    <div class="myQueriesSection">
+      <ul *ngIf="userQueries | async as queries">
+        <li class="queryContainer" *ngFor="let query of queries">
+          <div class="queryContentContainer">{{ query.content }}</div> 
+          <div class="queryStateContainer">{{ query.state ? 'Public' : 'Private' }}</div>
+        </li>
+      </ul>
+      <div *ngIf="(userQueries | async)?.length === 0">Crea tu primer query!</div>
+    </div>  
+</body>
+</html>

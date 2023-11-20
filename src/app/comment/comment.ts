@@ -1,15 +1,14 @@
 import { User } from "../user/user";
-import { Query } from "@angular/core";
-
+import { Query } from "../query/query";
 export class Comment {
     content: string;
-    query: Query;
-    user: User;
+    query: Query | null;
+    user: User | null;
    
     constructor(
       content: string,
-      query: Query,
-      user: User
+      query: Query | null,
+      user: User | null
     ) {
       this.content = content;
       this.query = query;

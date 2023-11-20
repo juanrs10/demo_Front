@@ -115,6 +115,14 @@ button{
   margin-top:20px;
 }
 
+.error-message {
+  color: red !important;                       /* Color del texto */
+  font-size: 14px;                  /* Tamaño de la fuente más pequeño */
+  text-align: center;               /* Centrado horizontal */
+  width: 100%;                      /* Ancho igual al del formulario */
+}
+
+
 
     </style>
 </head>
@@ -123,7 +131,11 @@ button{
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
-    <form (ngSubmit)="onSubmit()">
+    
+    <form>
+        <div *ngIf="errorMessage" class="error-message">
+            {{ errorMessage }}
+        </div>
         <h3>Login Here</h3>
 
         <label for="username">Username</label>
@@ -132,8 +144,8 @@ button{
         <label for="password">Password</label>
         <input type="password" placeholder="Password" id="password" [(ngModel)]="user.password" name="password">
 
-        <button>Log In</button>
-        <button class="button2">Sign Up</button>
+        <button (click)="onLogin()">Log In</button>
+        <button class="button2" (click)="onSignup()">Sign Up</button>
     </form>
 </body>
 </html>

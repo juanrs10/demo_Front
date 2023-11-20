@@ -1,0 +1,338 @@
+/* BASIC APPEARANCE */
+
+body {
+    /* display: flex; */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #FAF6F0;
+}
+
+.navContainer{
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding-top: 30px;
+    position: sticky;
+    z-index: 100;
+}
+
+.heroSection{
+
+    display: flex;
+    padding: 50px;
+    align-items: center;
+}
+
+.firstHalf{
+
+    width: 40%;
+}
+
+.heroTextContainer{
+    text-align: center;
+    width: 60%;
+    padding-left: 5vw;
+    
+}
+
+.buttonBlack{
+
+    background-color: transparent;
+    border: 2px solid black;
+    color: black;
+    border-radius: 10px;
+    padding: 5px;
+    width: 120px;
+
+
+}
+
+.buttonBlack:hover{
+    color: #FAF6F0;
+    background-color: black;
+}
+
+/* Estilo del Navbar */
+nav ul {
+    list-style-type: none; /* Remueve la decoración de lista por defecto */
+    margin: 0;
+    padding: 0;
+    display: flex; /* Lista los elementos de forma horizontal */
+    justify-content: space-around; /* Distribuye los elementos uniformemente */
+    border: 2px solid black; /* Borde negro alrededor del navbar */
+    border-radius: 10px; /* Bordes redondeados */
+    background-color: transparent; /* Fondo transparente */
+  }
+  
+  /* Estilo de cada item del Navbar */
+  nav ul li {
+    display: inline; /* Asegura que los items estén en línea */
+  }
+  
+  /* Estilo de los enlaces */
+  nav ul li a {
+    text-decoration: none; /* Remueve el subrayado de los links */
+    color: black; /* Color del texto */
+    padding: 10px 15px; /* Espaciado alrededor del texto */
+    display: block; /* Hace que el área de hover sea más grande */
+  }
+  
+  /* Estilo cuando se pasa el mouse sobre los items */
+  nav ul li a:hover {
+    background-color: black; /* Fondo negro */
+    color: #FAF6F0; /* Texto blanco */
+  }
+
+ul{
+
+    text-decoration: none;
+    
+}
+
+/* Estilos para la sección del builder */
+.builderSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra horizontalmente */
+    padding: 20px; /* Añade un padding uniforme */
+    border: 2px solid black; /* Borde negro redondeado */
+    border-radius: 10px;
+    background-color: transparent; /* Fondo transparente */
+    width: 50%; /* Ancho del contenedor toolkit */
+    margin: 100px auto; /* Margen superior e inferior para centrarlo verticalmente */
+  }
+  
+  /* Estilos para el título "Create Your Query" */
+  .builderSection h2 {
+    margin-bottom: 20px; /* Espacio inferior */
+  }
+  
+  /* Estilos para los mensajes de error */
+  .error-message {
+    color: red;
+    margin-bottom: 10px; /* Espacio inferior */
+  }
+  
+  /* Estilos para el contenedor del select */
+  .container {
+    text-align: center;
+  }
+  
+  /* Estilos para el select */
+  .builderSection select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+  }
+  
+  /* Estilos para el toolkit */
+  .toolkit {
+    margin-top: 20px; /* Espacio superior */
+    text-align: center;
+  }
+  
+  /* Estilos para los párrafos dentro del toolkit */
+  .toolkit p {
+    font-weight: bold;
+  }
+  
+  /* Estilos para los labels e inputs dentro del toolkit */
+  .toolkit label {
+    display: block;
+    margin: 10px 0; /* Espacio superior e inferior */
+  }
+  
+  /* Estilos para los botones */
+  .button {
+    padding: 10px 20px; /* Espaciado alrededor del botón */
+    margin: 10px; /* Margen entre botones */
+    cursor: pointer;
+  }
+  
+  /* Estilos para el textarea */
+  .query-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-top: 10px; /* Espacio superior */
+  }
+  
+  /* Estilos para el checkbox */
+  .builderSection label {
+    display: block;
+    margin-top: 10px; /* Espacio superior */
+  }
+  
+  /* Estilos para la tabla */
+  table {
+    margin-top: 20px; /* Espacio superior */
+    border-collapse: collapse; /* Colapsa los bordes de la tabla */
+    width: 100%;
+  }
+  
+  /* Estilos para las celdas de la tabla */
+  table th, table td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  /* Estilos para la fila de encabezado de la tabla */
+  table th {
+    background-color: black;
+    color: white;
+  }
+  
+  /* Estilos para las filas de datos de la tabla */
+  table td {
+    background-color: transparent;
+  }
+
+  .execute-button:hover{
+
+    background-color: rgb(192, 5, 5);
+    color: #FAF6F0;
+
+
+  }
+
+  .build-button:hover{
+
+    background-color: rgb(215, 141, 4);
+    color: #FAF6F0;
+
+
+  }
+
+  .save-button:hover{
+
+    background-color: rgb(18, 174, 4);
+    color: #FAF6F0;
+
+
+  }
+
+  /* MY QUERIES SECTION */
+
+  .myQueriesSection{
+
+    display: flex;
+    justify-content: center;
+
+  }
+
+  .myQueriesSection ul{
+    list-style-type: none;
+  }
+
+  h2{
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .queryContainer{
+    margin-top: 20px;
+    border-radius: 5px;
+    border: 2px solid black;
+    display: flex;
+    
+  }
+  
+  .queryContentContainer{
+
+    width: 70%;
+    background-color: white;
+    padding: 10px;
+
+
+  }
+
+  .queryStateContainer{
+
+    width: 30%;
+    background-color: black;
+    color: #FAF6F0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+
+
+  }
+
+  
+
+/* BLEND MODES */
+
+.multiply {
+    mix-blend-mode: multiply;
+}
+.screen {
+    mix-blend-mode: screen;
+}
+.overlay {
+    mix-blend-mode: overlay;
+}
+.darken {
+    mix-blend-mode: darken;
+}
+.lighten {
+    mix-blend-mode: lighten;
+}
+.color-dodge {
+    mix-blend-mode: color-dodge;
+}
+.color-burn {
+    mix-blend-mode: color-burn;
+}
+.hard-light {
+    mix-blend-mode: hard-light;
+}
+.soft-light {
+    mix-blend-mode: soft-light;
+}
+.difference {
+    mix-blend-mode: difference;
+}
+.exclusion {
+    mix-blend-mode: exclusion;
+}
+.hue {
+    mix-blend-mode: hue;
+}
+.saturation {
+    mix-blend-mode: saturation;
+}
+.color {
+    mix-blend-mode: color;
+}
+.luminosity {
+    mix-blend-mode: luminosity;
+}
+
+/* PEN CODE */
+
+.logo-container {
+    height: 400px;
+}
+
+/* ANIMATION */
+
+@keyframes moveUpDown {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-1px);
+    }
+}
+
+#top{
+    animation: moveUpDown 2.8s ease-in-out infinite alternate;
+}
+

@@ -14,7 +14,6 @@ export class CommentListComponent implements OnInit {
 
   getComments(): void {
     this.commentService.getComments().subscribe((comments) => {
-      this.comments = comments;
     });
   }
 

@@ -1,0 +1,212 @@
+/* Variables */
+:root {
+    --brand-blue: #282A36;
+  }
+
+  
+
+  body {
+    /* display: flex; */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #FAF6F0;
+    }
+
+/* NAV  */
+
+.navContainer{
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding-top: 30px;
+    position: sticky;
+    z-index: 100;
+}
+
+/* Estilo del Navbar */
+nav ul {
+    list-style-type: none; /* Remueve la decoración de lista por defecto */
+    margin: 0;
+    padding: 0;
+    display: flex; /* Lista los elementos de forma horizontal */
+    justify-content: space-around; /* Distribuye los elementos uniformemente */
+    border: 2px solid black; /* Borde negro alrededor del navbar */
+    border-radius: 10px; /* Bordes redondeados */
+    background-color: transparent; /* Fondo transparente */
+  }
+  
+  /* Estilo de cada item del Navbar */
+  nav ul li {
+    display: inline; /* Asegura que los items estén en línea */
+  }
+  
+  /* Estilo de los enlaces */
+  nav ul li a {
+    text-decoration: none; /* Remueve el subrayado de los links */
+    color: black; /* Color del texto */
+    padding: 10px 15px; /* Espaciado alrededor del texto */
+    display: block; /* Hace que el área de hover sea más grande */
+  }
+  
+  /* Estilo cuando se pasa el mouse sobre los items */
+  nav ul li a:hover {
+    background-color: black; /* Fondo negro */
+    color: #FAF6F0; /* Texto blanco */
+  }
+
+ul{
+
+    text-decoration: none;
+    
+}
+
+/* HERO SECTION */
+
+h1{
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+h2{
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.heroSection{
+
+    display: flex;
+    padding: 50px;
+    align-items: center;
+    height: 500px;
+}
+
+.firstHalf{
+
+    width: 40%;
+}
+
+.secondHalf{
+    text-align: center;
+    width: 60%;
+    padding-left: 5vw;
+    
+}
+
+.buttonBlack{
+
+    background-color: transparent;
+    border: 2px solid black;
+    color: black;
+    border-radius: 10px;
+    padding: 5px;
+    width: 120px;
+
+
+}
+
+.buttonBlack:hover{
+    color: #FAF6F0;
+    background-color: black;
+}
+
+/* QUERIES FEED SECTION */
+
+.queryContainer{
+    margin-top: 20px;
+    border-radius: 5px;
+    border: 2px solid black;
+    display: flex;
+    
+  }
+  
+  .queryContentContainer{
+
+    width: 70%;
+    background-color: white;
+    padding: 10px;
+
+
+  }
+
+  .queryUserContainer{
+
+    width: 30%;
+    background-color: black;
+    color: #FAF6F0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+/* NETWORK ANIMATION */
+  
+  @-webkit-keyframes polygon {
+    0% {
+      stroke-dasharray:0 300;
+    }
+    100% {
+      stroke-dasharray:300 0;
+    }
+  }
+  @keyframes polygon {
+    0% {
+      stroke-dasharray:0 300;
+    }
+    100% {
+      stroke-dasharray:300 0;
+    }
+  }
+  polygon {
+    stroke-width: 3;
+    fill: transparent;
+    stroke: black; 
+    stroke-miterlimit: 10; 
+  }
+  .hex1 {
+    animation: 4s polygon forwards;
+    -webkit-animation: 4s polygon forwards;
+  }
+  .hex2 {
+    animation: 8s polygon forwards;
+    -webkit-animation: 8s polygon forwards;
+  }
+  .hex3 {
+    animation: 12s polygon alternate backwards;
+    -webkit-animation: 12s polygon alternate backwards;
+  }
+  .hex4 {
+    animation: 10s polygon alternate backwards;
+    -webkit-animation: 10s polygon alternate backwards;
+  }
+  circle {
+    fill: #fff;
+    -webkit-animation-name: circle-glow;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-timing-function: ease-in-out;
+    -webkit-animation-direction: alternate;
+    
+    animation-name: circle-glow;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in-out;
+    animation-direction: alternate;
+    
+  }
+  
+  @-webkit-keyframes circle-glow { 
+    0% { fill: hsla(209, 20%, 32%, 1); }
+    50% { fill: hsla(209, 20%, 49%, 1); }
+    100% { fill: hsla(360, 100%, 100%, 1); }
+  }
+  
+  @keyframes circle-glow { 
+    0% { fill: hsla(209, 20%, 32%, 1); }
+    50% { fill: hsla(209, 20%, 49%, 1); }
+    100% { fill: hsla(360, 100%, 100%, 1); }
+  }
+  

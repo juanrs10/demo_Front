@@ -1,5 +1,6 @@
-import { Component, OnInit, Query } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { QueryService } from '../query.service';
+import { Query } from "../query";
 
 @Component({
   selector: 'app-query-list',
