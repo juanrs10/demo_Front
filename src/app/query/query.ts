@@ -1,4 +1,5 @@
 import { User } from "../user/user";
+import { Comment } from "../comment/comment";
 
 export class Query {
     id?: number;
@@ -6,6 +7,7 @@ export class Query {
     state: boolean;
     user: User | null;
     showDetails?: boolean;
+    comments?: Array<Comment>;
    
     constructor(
       content: string,

@@ -56,7 +56,7 @@
       </div>
       <!-- PAGE DESC -->
       <div class="heroTextContainer">
-        <h1>ETH Cipher</h1>
+        <h1>ETH Query</h1>
         <h2>Create complex querys without a single line of code</h2>
         <button class="buttonBlack">Log in</button>
       </div>
@@ -68,7 +68,9 @@
 
   <div class="builderSection">
 
-    <h2>Create Your Query</h2>
+    <h2 *ngIf="!editMode" id="createYourQuery">Create Your Query</h2>
+    <h2 *ngIf="editMode" id="createYourQuery">Edit Your Query</h2>
+
 
     <div *ngIf="errorMessage" class="error-message">
       Error: {{ errorMessage }}
@@ -142,13 +144,19 @@
     
 
     <textarea class="query-input" [(ngModel)]="queryContent" placeholder="Enter your query here..."></textarea><br>
-
+    <textarea *ngIf="starterComment" class="query-input" [(ngModel)]="commentContent" placeholder="Comment here... (optional)"></textarea><br>
     <label>
         <input type="checkbox" [(ngModel)]="isQueryPrivate"> Post Query
-    </label><br>
+    </label>
+    <label>
+      <input type="checkbox"  [(ngModel)]="starterComment"> Add Comment
+    </label>
+
+    <br>
 
     <button class="button buttonBlack execute-button" (click)="executeQuery()">Execute</button>
-    <button class="button buttonBlack save-button" (click)="saveQuery()">Save</button>
+    <button *ngIf="!editMode" class="button buttonBlack save-button" (click)="saveQuery()">Save</button>
+    <button *ngIf="editMode" class="button buttonBlack update-button" (click)="updateQuery()">Update</button>
 
     <table *ngIf="queryResults.length > 0">
       <thead>
@@ -164,6 +172,8 @@
       
     </table>
 
+  
+  
   </div>
     <!-- MY QUERIES SECTION -->
     <h2>Saved Queries</h2>
@@ -172,9 +182,18 @@
         <li class="queryContainer" *ngFor="let query of queries">
           <div class="queryContentContainer">{{ query.content }}</div> 
           <div class="queryStateContainer">{{ query.state ? 'Public' : 'Private' }}</div>
+          <div class="queryEditContainer">
+            <a (click)="navigateToSection('createYourQuery'); editQuery(query)">edit</a>
+          </div>
+          <div class="queryCommentsContainer" *ngIf="query.comments as comments">
+            <h5 ng *ngIf="comments.length > 0">Comments</h5>
+            <ul *ngFor="let comment of comments">
+              <li>{{ comment.user?.email }}: {{ comment.content }}</li>
+            </ul>
+          </div>
         </li>
       </ul>
       <div *ngIf="(userQueries | async)?.length === 0">Crea tu primer query!</div>
-    </div>  
+    </div> 
 </body>
 </html>

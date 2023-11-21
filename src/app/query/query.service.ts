@@ -34,6 +34,11 @@ export class QueryService {
     return this.http.get<Query>(url);
   }
 
+  updateQuery(query: Query): Observable<any>{
+    const url = `${this.apiUrl}/${query.id}`;
+    return this.http.put(url,query);
+  }
+
   commentQuery(query: Query, content: string){
   }
 

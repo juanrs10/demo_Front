@@ -20,7 +20,6 @@ export class BrowseComponent implements OnInit {
 
   user: User | null = this.userDataService.getCurrentUser();
   queriesDisplayed : Observable<Query[]> = of([]);
-  queryDetail: Observable<any> = of();
   comment: string = "";
   selectedQuery: any;
 
@@ -41,12 +40,12 @@ export class BrowseComponent implements OnInit {
 
     this.selectedQuery = query;
 
-    this.queryDetail = this.queryService.getQueryDetail(query); 
-    console.log(this.queryDetail.subscribe);
+    this.queryDetail$ = this.queryService.getQueryDetail(query); 
+    console.log(this.queryDetail$);
 
     
   }
-
+  
   uploadComment(query: Query, comment: string){
 
     // Comprueba si el comentario está vacío o si solo contiene espacios en blanco
@@ -58,16 +57,20 @@ export class BrowseComponent implements OnInit {
       this.commentService.createComment(this.user as User, query, newComment).subscribe(
         response => {
           console.log('Comentario creado:', response);
-    
-          // Obtén el valor del Observable queryDetail
-          this.queryDetail.subscribe((queryDetailValue: any) => {
-            // Asegúrate de que queryDetailValue tenga la propiedad 'comments'
-            if (queryDetailValue && queryDetailValue.comments) {
-              // Agrega el nuevo comentario a la lista de comentarios
-              queryDetailValue.comments.push(response);
-              console.log(queryDetailValue.comments)
-            }
-          });
+          console.log(this.comments$);
+
+          // Actualiza los comentarios en tiempo real
+          this.commentsSubject.next([...this.commentsSubject.value, response]);
+
+          // Actualiza queryDetail en tiempo real usando switchMap
+          this.queryDetail$ = this.queryDetail$.pipe(
+            switchMap(queryDetail$ => {
+              if (queryDetail$) {
+                queryDetail$.comments.push(response);
+              }
+              return of(queryDetail$);
+            })
+          );
         },
         error => {
           console.error('Error al crear comentario:', error);

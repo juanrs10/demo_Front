@@ -5,8 +5,10 @@ import { UserDataService } from '../user/userData.service';
 import { User } from '../user/user';
 import { Query } from '../query/query';
 import { UserService } from '../user/user.service';
-import { Observable, of } from 'rxjs';
+import { Observable, of, BehaviorSubject, map, switchMap, forkJoin, catchError } from 'rxjs';
 import * as anime from 'animejs';
+import { Comment } from '../comment/comment';
+import { CommentService } from '../comment/comment.service';
 
 
 @Component({
@@ -23,6 +25,18 @@ export class HomepageComponent implements OnInit {
   errorMessage: string = "";
   selectedDatasource: string = '';
   userQueries: Observable<Query[]> = of([]);
+  starterComment: boolean = false;
+  commentContent: string = "";
+  queryTempId: number = 0;
+  queryComments: Observable<Comment[]> = of([]);
+  queryTemp: Query = new Query("",false,null);
+
+  //OBSERVABLES queryDetail y comments
+  private queryDetailSubject = new BehaviorSubject<any>(null);
+  queryDetail$: Observable<any> = this.queryDetailSubject.asObservable();
+  private commentsSubject = new BehaviorSubject<Comment[]>([]);
+  comments$: Observable<Comment[]> = this.commentsSubject.asObservable();
+  editMode: boolean = false;
 
   // AMMEND TOKES
 
@@ -59,7 +73,8 @@ export class HomepageComponent implements OnInit {
     private router: Router, 
     private userDataService: UserDataService, 
     private queryService: QueryService,
-    private userService: UserService
+    private userService: UserService,
+    private commentService: CommentService
   ) { }
 
   executeQuery() {
@@ -83,6 +98,7 @@ export class HomepageComponent implements OnInit {
   saveQuery() {
     // Crear un objeto Query con los datos actuales
     const query = new Query(this.queryContent, this.isQueryPrivate, this.user);
+    query.id = this.queryTempId;
     // Comprobar si el id del usuario es un número antes de pasarlo al servicio
     const userId = typeof query.user?.id === 'number' ? query.user?.id : undefined;
     // Llamar al servicio para guardar el query
@@ -90,6 +106,24 @@ export class HomepageComponent implements OnInit {
       response => {
         // Manejar la respuesta del servidor
         console.log(response);
+        // Asignar el id del query después de recibir la respuesta
+        query.id = response.id;
+        
+        // AUTHORS COMMENT
+        if (this.starterComment) {
+          console.log("AT LEAST WE GOT HERE");
+          console.log(query);
+          const comment = new Comment(this.commentContent, null, null);
+          this.commentService.createComment(this.user as User, query, comment).subscribe(
+            commentResponse => {
+              console.log(commentResponse);
+            },
+            commentError => {
+              console.error(commentError);
+              this.errorMessage = commentError;
+            }
+          );
+        }
       },
       error => {
         // Manejar posibles errores
@@ -108,9 +142,17 @@ export class HomepageComponent implements OnInit {
     console.log(this.selectedDatasource)
   }
 
-  loadUserQueries(currentUser: User){
-
-    this.userQueries = this.userService.getQueriesOfUser(currentUser);
+  loadUserQueries(currentUser: User) {
+    this.userQueries = this.userService.getQueriesOfUser(currentUser).pipe(
+      switchMap(queries => {
+        return forkJoin(queries.map(query => 
+          this.queryService.getQueryDetail(query).pipe(
+            catchError(() => of({ ...query, comments: [] })), // En caso de error, devuelve el query con comentarios vacíos
+            map(queryDetail => ({ ...query, comments: queryDetail.comments || [] }))
+          )
+        ));
+      })
+    );
   }
 
   buildQuery(){
@@ -217,6 +259,48 @@ export class HomepageComponent implements OnInit {
     }
   
 
+  }
+
+  editQuery(query: Query){
+    this.editMode = true;
+    this.queryContent = query.content;
+    this.queryTemp = query;
+    
+
+  }
+
+  updateQuery(){
+    this.queryTemp.content = this.queryContent;
+    this.queryTemp.state = this.isQueryPrivate;
+    this.queryService.updateQuery(this.queryTemp).subscribe(
+      response => {
+        console.log("QUERY UPDATED",response)
+      },
+      error => {
+        console.log(error)
+      }
+    );
+    // AUTHORS COMMENT
+    if (this.starterComment) {
+      console.log("AT LEAST WE GOT HERE");
+      const comment = new Comment(this.commentContent, null, null);
+      this.commentService.createComment(this.user as User, this.queryTemp, comment).subscribe(
+        commentResponse => {
+          console.log(commentResponse);
+          this.loadUserQueries(this.user as User);
+
+        },
+        commentError => {
+          console.error(commentError);
+          this.errorMessage = commentError;
+        }
+      );
+    }
+    this.editMode = false;
+  }
+
+  navigateToSection(sectionId: string){
+    document.getElementById(sectionId)?.scrollIntoView();
   }
 
   ngOnInit() {

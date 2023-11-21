@@ -308,16 +308,16 @@
         </div>
         <!-- {{query.user?.email ?? 'Email not available'}} -->
         <!-- query about box -->
-        <div *ngIf="selectedQuery == query && (queryDetail | async) as queryDetail" class="queryAboutContainer">
+        <div *ngIf="selectedQuery == query && (queryDetail$ | async) as queryDetail" class="queryAboutContainer">
           <div class="quryAuthor">{{queryDetail.user?.email}}</div>
           <div class="queryCommentsContainer" *ngIf="queryDetail.comments as comments">
             <ul *ngFor="let comment of comments">
               <li>{{comment.user?.email}}: {{comment.content}}</li>
             </ul>
-            <div class="uploadCommentContainer">
-              <input type="text" [(ngModel)]="comment">
-              <button class="uploadComment" (click)="uploadComment(selectedQuery,comment)">upload</button>
-            </div>
+          </div>
+          <div class="uploadCommentContainer">
+            <input type="text" [(ngModel)]="comment">
+            <button class="uploadComment" (click)="uploadComment(selectedQuery,comment)">upload</button>
           </div>
         </div>
       </li>
