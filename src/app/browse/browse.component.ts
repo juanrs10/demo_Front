@@ -45,7 +45,7 @@ export class BrowseComponent implements OnInit {
 
     
   }
-  
+
   uploadComment(query: Query, comment: string){
 
     // Comprueba si el comentario está vacío o si solo contiene espacios en blanco
@@ -88,6 +88,11 @@ export class BrowseComponent implements OnInit {
 
   goHome(){
     this.router.navigate(["/homepage"])
+  }
+
+
+  navigateToSection(sectionId: string){
+    document.getElementById(sectionId)?.scrollIntoView();
   }
 
 }

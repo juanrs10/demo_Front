@@ -69,6 +69,67 @@ export class HomepageComponent implements OnInit {
   transactionIndex: string = '';
   logAddress: string = '';
 
+  //METADATA
+
+  chain: string = "";
+  load_all_partitions: boolean = false;
+  byDate: string = "";
+  runid: string = "";  // Añadido tipo 'string'
+
+  // SESSIONS
+  id: string = "";  // Añadido tipo 'string'
+  startTrace: string = "";
+  startBlock: number = 0;  // Añadido valor inicial '0'
+  startBlockTimestamp: string = "";
+  walletAddress: string = "";
+  contractAddress: string = "";
+
+  // TOKEN TRANSFERS
+  token_address: string = "";
+  from_address: string = "";
+  to_address: string = "";
+  value: string = "";
+  transaction_hash: string = "";
+  log_index: number = 0;  // Añadido valor inicial '0'
+  block_timestamp: string = "";  // Tipo TIMESTAMP usualmente manejado como 'string' en JS
+  block_number: number = 0;  // Añadido valor inicial '0'
+  block_hash: string = "";
+
+  // TOKENS
+  //address: string = "";
+  // symbol: string = "";
+  name: string = "";
+  // decimals: string = "";  // Cambiado a 'string', aunque podría requerir un casting posterior
+  total_supply: string = "";
+  // block_timestamp: string = "";  // Tipo TIMESTAMP usualmente manejado como 'string' en JS
+  // block_number: number = 0;  // Añadido valor inicial '0'
+  // block_hash: string = "";
+
+  // TRACES 
+  // transaction_hash: string = "";
+  transaction_index: number = 0;  // Añadido valor inicial '0'
+  // from_address: string = "";
+  // to_address: string = "";
+
+    // TRANSACTIONS
+  // to_address: string = "";
+  // value: string = "";  // 'NUMERIC' generalmente se maneja como 'string'
+  gas: number = 0;  // 'INTEGER', inicializado a 0
+  gas_price: number = 0;  // 'INTEGER', inicializado a 0
+  input: string = "";
+  receipt_cumulative_gas_used: number = 0;  // 'INTEGER', inicializado a 0
+  receipt_gas_used: number = 0;  // 'INTEGER', inicializado a 0
+  receipt_contract_address: string = "";
+  receipt_root: string = "";
+  receipt_status: number = 0;  // 'INTEGER', inicializado a 0
+  // block_timestamp: string = "";  // 'TIMESTAMP' usualmente manejado como 'string'
+  // block_number: number = 0;  // 'INTEGER', inicializado a 0
+  // block_hash: string = "";
+  max_fee_per_gas: number = 0;  // 'INTEGER', inicializado a 0
+  max_priority_fee_per_gas: number = 0;  // 'INTEGER', inicializado a 0
+  transaction_type: number = 0;  // 'INTEGER', inicializado a 0
+  receipt_effective_gas_price: number = 0;  // 'INTEGER', inicializado a 0
+
   constructor(
     private router: Router, 
     private userDataService: UserDataService, 
@@ -137,6 +198,10 @@ export class HomepageComponent implements OnInit {
     this.router.navigate(["/browse"]);
   }
 
+  goLogin(){
+    this.router.navigate(["/login"])
+  }
+
   onDatasourceChange(value: string) {
     this.selectedDatasource = value;
     console.log(this.selectedDatasource)
@@ -176,6 +241,9 @@ export class HomepageComponent implements OnInit {
         if (whereClauses.length > 0) {
           this.queryContent += ' WHERE ' + whereClauses.join(' AND ') + " LIMIT 10";
         }
+        else{
+          this.queryContent += " LIMIT 10";
+        }
 
         console.log(this.queryContent);
 
@@ -192,6 +260,9 @@ export class HomepageComponent implements OnInit {
         this.queryContent = 'SELECT * FROM bigquery-public-data.crypto_ethereum.balances';
         if (whereClauses.length > 0) {
           this.queryContent += ' WHERE ' + whereClauses.join(' AND ') + " LIMIT 10";
+        }
+        else{
+          this.queryContent += " LIMIT 10";
         }
 
         console.log(this.queryContent);
@@ -216,6 +287,9 @@ export class HomepageComponent implements OnInit {
           if (whereClauses.length > 0) {
             this.queryContent += ' WHERE ' + whereClauses.join(' AND ') + " LIMIT 10";
           }
+          else{
+            this.queryContent += " LIMIT 10";
+          }
 
           console.log(this.queryContent);
           break;
@@ -234,6 +308,9 @@ export class HomepageComponent implements OnInit {
         if (whereClauses.length > 0) {
           this.queryContent += ' WHERE ' + whereClauses.join(' AND ') + " LIMIT 10";
         }
+        else{
+          this.queryContent += " LIMIT 10";
+        }
         console.log(this.queryContent);
         break;
 
@@ -250,12 +327,178 @@ export class HomepageComponent implements OnInit {
         if (this.logAddress.trim()) {
           whereClauses.push(`address = '${this.logAddress}'`);
         }
-        this.queryContent = `SELECT * FROM Logs`;
+        this.queryContent = `SELECT * FROM bigquery-public-data.crypto_ethereum.logs`;
         if (whereClauses.length > 0) {
           this.queryContent += ' WHERE ' + whereClauses.join(' AND ') + " LIMIT 10";
         }
+        else{
+          this.queryContent += " LIMIT 10";
+        }
         console.log(this.queryContent);
         break;
+      
+      case "metadata":
+      if (this.chain.trim()) {
+        whereClauses.push(`chain = '${this.chain}'`);
+      }
+      if (this.load_all_partitions) { // boolean value
+        whereClauses.push(`load_all_partitions = ${this.load_all_partitions}`);
+      }
+      if (this.byDate.trim()) {
+        whereClauses.push(`byDate = '${this.byDate}'`);
+      }
+      if (this.runid.trim()) {
+        whereClauses.push(`runid = '${this.runid}'`);
+      }
+      this.queryContent = `SELECT * FROM bigquery-public-data.crypto_ethereum.load_metadata`;
+      if (whereClauses.length > 0) {
+        this.queryContent += ' WHERE ' + whereClauses.join(' AND ') + " LIMIT 10";
+      }
+      else{
+        this.queryContent += " LIMIT 10";
+      }
+      console.log(this.queryContent);
+      break;
+
+    case "sessions":
+      if (this.id.trim()) {
+        whereClauses.push(`id = '${this.id}'`);
+      }
+      if (this.startTrace.trim()) {
+        whereClauses.push(`startTrace = '${this.startTrace}'`);
+      }
+      if (this.startBlock) { // Assuming 0 is not a valid input
+        whereClauses.push(`startBlock = ${this.startBlock}`);
+      }
+      if (this.startBlockTimestamp.trim()) {
+        whereClauses.push(`startBlockTimestamp = '${this.startBlockTimestamp}'`);
+      }
+      if (this.walletAddress.trim()) {
+        whereClauses.push(`walletAddress = '${this.walletAddress}'`);
+      }
+      if (this.contractAddress.trim()) {
+        whereClauses.push(`contractAddress = '${this.contractAddress}'`);
+      }
+      this.queryContent = `SELECT * FROM bigquery-public-data.crypto_ethereum.sessions`;
+      if (whereClauses.length > 0) {
+        this.queryContent += ' WHERE ' + whereClauses.join(' AND ') + " LIMIT 10";
+      }
+      else{
+        this.queryContent += " LIMIT 10";
+      }
+      console.log(this.queryContent);
+      break;
+
+    case "tokenTransfers":
+      if (this.token_address.trim()) {
+        whereClauses.push(`token_address = '${this.token_address}'`);
+      }
+      if (this.from_address.trim()) {
+        whereClauses.push(`from_address = '${this.from_address}'`);
+      }
+      if (this.to_address.trim()) {
+        whereClauses.push(`to_address = '${this.to_address}'`);
+      }
+      if (this.value.trim()) {
+        whereClauses.push(`value = '${this.value}'`);
+      }
+      // ... other token transfer fields ...
+      this.queryContent = `SELECT * FROM bigquery-public-data.crypto_ethereum.token_transfers`;
+      if (whereClauses.length > 0) {
+        this.queryContent += ' WHERE ' + whereClauses.join(' AND ') + " LIMIT 10";
+      }
+      else{
+        this.queryContent += " LIMIT 10";
+      }
+      console.log(this.queryContent);
+      break;
+
+    case "tokens":
+      if (this.name.trim()) {
+        whereClauses.push(`name = '${this.name}'`);
+      }
+      if (this.total_supply.trim()) {
+        whereClauses.push(`total_supply = '${this.total_supply}'`);
+      }
+      // ... other token fields ...
+      this.queryContent = `SELECT * FROM bigquery-public-data.crypto_ethereum.tokens`;
+      if (whereClauses.length > 0) {
+        this.queryContent += ' WHERE ' + whereClauses.join(' AND ') + " LIMIT 10";
+      }
+      else{
+        this.queryContent += " LIMIT 10";
+      }
+      console.log(this.queryContent);
+      break;
+
+      case "traces":
+      if (this.transaction_index) { // Assuming 0 is not a valid input
+        whereClauses.push(`transaction_index = ${this.transaction_index}`);
+      }
+      if (this.from_address.trim()) {
+        whereClauses.push(`from_address = '${this.from_address}'`);
+      }
+      if (this.to_address.trim()) {
+        whereClauses.push(`to_address = '${this.to_address}'`);
+      }
+      // ... other traces fields ...
+      this.queryContent = `SELECT * FROM bigquery-public-data.crypto_ethereum.traces`;
+      if (whereClauses.length > 0) {
+        this.queryContent += ' WHERE ' + whereClauses.join(' AND ') + " LIMIT 10";
+      }
+      else{
+        this.queryContent += " LIMIT 10";
+      }
+      console.log(this.queryContent);
+      break;
+
+    case "transactions":
+      if (this.gas) { // Assuming 0 is not a valid input
+        whereClauses.push(`gas = ${this.gas}`);
+      }
+      if (this.gas_price) { // Assuming 0 is not a valid input
+        whereClauses.push(`gas_price = ${this.gas_price}`);
+      }
+      if (this.input.trim()) {
+        whereClauses.push(`input = '${this.input}'`);
+      }
+      if (this.receipt_cumulative_gas_used) {
+        whereClauses.push(`receipt_cumulative_gas_used = ${this.receipt_cumulative_gas_used}`);
+      }
+      if (this.receipt_gas_used) {
+        whereClauses.push(`receipt_gas_used = ${this.receipt_gas_used}`);
+      }
+      if (this.receipt_contract_address.trim()) {
+        whereClauses.push(`receipt_contract_address = '${this.receipt_contract_address}'`);
+      }
+      if (this.receipt_root.trim()) {
+        whereClauses.push(`receipt_root = '${this.receipt_root}'`);
+      }
+      if (this.receipt_status) {
+        whereClauses.push(`receipt_status = ${this.receipt_status}`);
+      }
+      if (this.max_fee_per_gas) {
+        whereClauses.push(`max_fee_per_gas = ${this.max_fee_per_gas}`);
+      }
+      if (this.max_priority_fee_per_gas) {
+        whereClauses.push(`max_priority_fee_per_gas = ${this.max_priority_fee_per_gas}`);
+      }
+      if (this.transaction_type) {
+        whereClauses.push(`transaction_type = ${this.transaction_type}`);
+      }
+      if (this.receipt_effective_gas_price) {
+        whereClauses.push(`receipt_effective_gas_price = ${this.receipt_effective_gas_price}`);
+      }
+      // ... other transactions fields ...
+      this.queryContent = `SELECT * FROM bigquery-public-data.crypto_ethereum.transactions`;
+      if (whereClauses.length > 0) {
+        this.queryContent += ' WHERE ' + whereClauses.join(' AND ') + " LIMIT 10";
+      }
+      else{
+        this.queryContent += " LIMIT 10";
+      }
+      console.log(this.queryContent);
+      break;
     }
   
 

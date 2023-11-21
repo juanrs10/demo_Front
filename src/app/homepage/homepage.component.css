@@ -197,6 +197,12 @@ ul{
     background-color: transparent;
   }
 
+  .tableContainer{
+    max-height: 500px;
+    overflow-x: auto;
+    overflow-y: auto;
+  }
+
   .execute-button:hover{
 
     background-color: rgb(192, 5, 5);
@@ -252,10 +258,28 @@ ul{
     flex-wrap: wrap;
     
   }
+
+  .queryEditContainer{
+
+    width: 10%;
+    text-align: center;
+    background-color: #FAF6F0;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+  }
+
+  .queryEditContainer:hover{
+
+    background-color: black;
+    color: #FAF6F0;
+  }
   
   .queryContentContainer{
 
-    width: 70%;
+    width: 60%;
     background-color: white;
     padding: 10px;
 
@@ -275,13 +299,15 @@ ul{
 
   }
 
+  h5{
+    padding: 6px;
+  }
+
   .queryCommentsContainer{
 
 
   }
-
   
-
 /* BLEND MODES */
 
 .multiply {

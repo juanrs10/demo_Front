@@ -7,7 +7,7 @@
       <nav>
         <ul>
         <li><a class="item">Home</a></li>
-        <li><a class="item">MyProfile</a></li>
+        <li><a class="item" (click) = "navigateToSection('savedQueries')">MyQueries</a></li>
         <li><a (click)="goBrowse()" class="item">Browse</a></li>
         </ul>
       </nav>
@@ -58,7 +58,8 @@
       <div class="heroTextContainer">
         <h1>ETH Query</h1>
         <h2>Create complex querys without a single line of code</h2>
-        <button class="buttonBlack">Log in</button>
+        <button *ngIf="user == null" class="buttonBlack" (click)="goLogin()">Log in</button>
+        <button *ngIf="user != null" class="buttonBlack" (click)="navigateToSection('createYourQuery')">Create a query</button>
       </div>
 
     </div>
@@ -129,15 +130,67 @@
         <label>Transaction Index: <input type="text" [(ngModel)]="transactionIndex"></label>
         <label>Address: <input type="text" [(ngModel)]="logAddress"></label>
       </div>
-      <!-- ... -->
+      
       <div *ngIf="selectedDatasource === 'traces'">
         <p>Search Traces by:</p>
-        <!-- Add input fields for Traces criteria if needed -->
+        <label>Transaction Index: <input type="number" [(ngModel)]="transaction_index"></label>
+        <label>From Address: <input type="text" [(ngModel)]="from_address"></label>
+        <label>To Address: <input type="text" [(ngModel)]="to_address"></label>
       </div>
+    
       <div *ngIf="selectedDatasource === 'transactions'">
         <p>Search Transactions by:</p>
-        <!-- Add input fields for Transactions criteria if needed -->
+        <label>Gas: <input type="number" [(ngModel)]="gas"></label>
+        <label>Gas Price: <input type="number" [(ngModel)]="gas_price"></label>
+        <label>Input: <input type="text" [(ngModel)]="input"></label>
+        <label>Receipt Cumulative Gas Used: <input type="number" [(ngModel)]="receipt_cumulative_gas_used"></label>
+        <label>Receipt Gas Used: <input type="number" [(ngModel)]="receipt_gas_used"></label>
+        <label>Receipt Contract Address: <input type="text" [(ngModel)]="receipt_contract_address"></label>
+        <label>Receipt Root: <input type="text" [(ngModel)]="receipt_root"></label>
+        <label>Receipt Status: <input type="number" [(ngModel)]="receipt_status"></label>
+        <label>Max Fee Per Gas: <input type="number" [(ngModel)]="max_fee_per_gas"></label>
+        <label>Max Priority Fee Per Gas: <input type="number" [(ngModel)]="max_priority_fee_per_gas"></label>
+        <label>Transaction Type: <input type="number" [(ngModel)]="transaction_type"></label>
+        <label>Receipt Effective Gas Price: <input type="number" [(ngModel)]="receipt_effective_gas_price"></label>
+      </div>   
+      
+      <div *ngIf="selectedDatasource === 'metadata'">
+        <p>Search Metadata by:</p>
+        <label>Chain: <input type="text" [(ngModel)]="chain"></label>
+        <label>Load All Partitions: <input type="checkbox" [(ngModel)]="load_all_partitions"></label>
+        <label>By Date: <input type="text" [(ngModel)]="byDate"></label>
+        <label>Run ID: <input type="text" [(ngModel)]="runid"></label>
       </div>
+    
+      <div *ngIf="selectedDatasource === 'sessions'">
+        <p>Search Sessions by:</p>
+        <label>ID: <input type="text" [(ngModel)]="id"></label>
+        <label>Start Trace: <input type="text" [(ngModel)]="startTrace"></label>
+        <label>Start Block: <input type="number" [(ngModel)]="startBlock"></label>
+        <label>Start Block Timestamp: <input type="text" [(ngModel)]="startBlockTimestamp"></label>
+        <label>Wallet Address: <input type="text" [(ngModel)]="walletAddress"></label>
+        <label>Contract Address: <input type="text" [(ngModel)]="contractAddress"></label>
+      </div>
+    
+      <div *ngIf="selectedDatasource === 'tokenTransfers'">
+        <p>Search Token Transfers by:</p>
+        <label>Token Address: <input type="text" [(ngModel)]="token_address"></label>
+        <label>From Address: <input type="text" [(ngModel)]="from_address"></label>
+        <label>To Address: <input type="text" [(ngModel)]="to_address"></label>
+        <label>Value: <input type="text" [(ngModel)]="value"></label>
+        <label>Transaction Hash: <input type="text" [(ngModel)]="transaction_hash"></label>
+        <label>Log Index: <input type="number" [(ngModel)]="log_index"></label>
+        <label>Block Timestamp: <input type="text" [(ngModel)]="block_timestamp"></label>
+        <label>Block Number: <input type="number" [(ngModel)]="block_number"></label>
+        <label>Block Hash: <input type="text" [(ngModel)]="block_hash"></label>
+      </div>
+    
+      <div *ngIf="selectedDatasource === 'tokens'">
+        <p>Search Tokens by:</p>
+        <label>Name: <input type="text" [(ngModel)]="name"></label>
+        <label>Total Supply: <input type="text" [(ngModel)]="total_supply"></label>
+      </div>
+
       <button *ngIf="selectedDatasource" class="buttonBlack build-button" (click)="buildQuery()">Build</button>
     </div>
     
@@ -158,7 +211,12 @@
     <button *ngIf="!editMode" class="button buttonBlack save-button" (click)="saveQuery()">Save</button>
     <button *ngIf="editMode" class="button buttonBlack update-button" (click)="updateQuery()">Update</button>
 
-    <table *ngIf="queryResults.length > 0">
+  </div>
+
+  <!-- TABLE SECTION -->
+  <div *ngIf="queryResults.length > 0" class="tableContainer">
+    <h2>Results</h2>
+    <table>
       <thead>
           <tr>
               <th *ngFor="let key of queryResults[0] | keyvalue">{{ key.key }}</th>
@@ -171,20 +229,18 @@
       </tbody>         
       
     </table>
-
-  
-  
+    <br>
   </div>
     <!-- MY QUERIES SECTION -->
-    <h2>Saved Queries</h2>
+    <h2 id="savedQueries">Saved Queries</h2>
     <div class="myQueriesSection">
       <ul *ngIf="userQueries | async as queries">
         <li class="queryContainer" *ngFor="let query of queries">
-          <div class="queryContentContainer">{{ query.content }}</div> 
-          <div class="queryStateContainer">{{ query.state ? 'Public' : 'Private' }}</div>
           <div class="queryEditContainer">
             <a (click)="navigateToSection('createYourQuery'); editQuery(query)">edit</a>
           </div>
+          <div class="queryContentContainer">{{ query.content }}</div> 
+          <div class="queryStateContainer">{{ query.state ? 'Public' : 'Private' }}</div>
           <div class="queryCommentsContainer" *ngIf="query.comments as comments">
             <h5 ng *ngIf="comments.length > 0">Comments</h5>
             <ul *ngFor="let comment of comments">

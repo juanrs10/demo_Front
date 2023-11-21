@@ -292,14 +292,14 @@
       <div class="secondHalf">
         <h1>Welcome to our community</h1>
         <h2>Browse, comment and discover</h2>
-        <button class="buttonBlack">Start browsing</button>
+        <button class="buttonBlack" (click)="navigateToSection('feed')">Start browsing</button>
       </div>
     </div>
   </section>
 
   <!-- POSTS SECTION -->
   <section>
-    <h2>Recent Posts</h2>
+    <h2 id="feed">Recent Posts</h2>
     <ul *ngIf="queriesDisplayed | async as queries">
       <li *ngFor="let query of queries">
         <div class="queryContainer">
@@ -309,7 +309,7 @@
         <!-- {{query.user?.email ?? 'Email not available'}} -->
         <!-- query about box -->
         <div *ngIf="selectedQuery == query && (queryDetail$ | async) as queryDetail" class="queryAboutContainer">
-          <div class="quryAuthor">{{queryDetail.user?.email}}</div>
+          <div class="queryAuthor">Author: {{queryDetail.user?.email}}</div>
           <div class="queryCommentsContainer" *ngIf="queryDetail.comments as comments">
             <ul *ngFor="let comment of comments">
               <li>{{comment.user?.email}}: {{comment.content}}</li>

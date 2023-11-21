@@ -142,6 +142,10 @@ h2{
     padding: 10px;
 }
 
+.queryAuthor{
+    padding: 5px;
+}
+
 /* query comments list */
 
 .queryCommentsContainer {
